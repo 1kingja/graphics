@@ -7,7 +7,11 @@ void MeGlWindow::initializeGL()
 
 	GLfloat verts[] =
 	{
-		+0.0f, +1.0f,
+		+0.0f, +0.0f,
+		+1.0f, +1.0f,
+		-1.0f, +1.0f,
+
+		+0.0f, +0.0f,
 		-1.0f, -1.0f,
 		+1.0f, -1.0f,
 	};
@@ -23,5 +27,5 @@ void MeGlWindow::initializeGL()
 void MeGlWindow::paintGL()
 {
 	glViewport(0, 0, width(), height());
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
