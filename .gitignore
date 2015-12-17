@@ -5,5 +5,7 @@
 *.sdf
 *.opendb
 *.user
+*.log
 .vs/
+*.tlog/
 Debug/Tmp

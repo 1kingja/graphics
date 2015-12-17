@@ -1,0 +1,1 @@
+Visual Studio 2015 requires the mxvcp100d.dll and msvcr100d.dll files in here. I did not include them in the video because I was using an older version of Visual Studio.
