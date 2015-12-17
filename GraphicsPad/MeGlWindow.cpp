@@ -9,15 +9,15 @@ void sendDataToOpenGL()
 	GLfloat verts[] =
 	{
 		+0.0f, +0.0f,
-		+0.0f, +0.0f, +0.0f,
+		+1.0f, +0.0f, +0.0f,
 		+1.0f, +1.0f,
-		+0.0f, +0.0f, +0.0f,
+		+1.0f, +0.0f, +0.0f,
 		-1.0f, +1.0f,
-		+0.0f, +0.0f, +0.0f,
+		+1.0f, +0.0f, +0.0f,
 		-1.0f, -1.0f,
-		+0.0f, +0.0f, +0.0f,
+		+1.0f, +0.0f, +0.0f,
 		+1.0f, -1.0f,
-		+0.0f, +0.0f, +0.0f,
+		+1.0f, +0.0f, +0.0f,
 	};
 	GLuint myBufferID;
 	glGenBuffers(1, &myBufferID);
