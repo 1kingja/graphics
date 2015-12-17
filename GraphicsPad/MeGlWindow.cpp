@@ -1,10 +1,10 @@
 #include <gl\glew.h>
 #include <MeGlWindow.h>
 
-void MeGlWindow::initializeGL()
-{
-	glewInit();
+extern const char* vertexShaderCode;
 
+void sendDataToOpenGL()
+{
 	GLfloat verts[] =
 	{
 		+0.0f, +0.0f,
@@ -34,6 +34,18 @@ void MeGlWindow::initializeGL()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices),
 		indices, GL_STATIC_DRAW);
+}
+
+void installShaders()
+{
+
+}
+
+void MeGlWindow::initializeGL()
+{
+	glewInit();
+	sendDataToOpenGL();
+	installShaders();
 }
 
 void MeGlWindow::paintGL()

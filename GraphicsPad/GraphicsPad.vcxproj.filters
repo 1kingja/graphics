@@ -3,6 +3,7 @@
   <ItemGroup>
     <ClCompile Include="Mainer.cpp" />
     <ClCompile Include="MeGlWindow.cpp" />
+    <ClCompile Include="MeShaderCode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MeGlWindow.h" />
