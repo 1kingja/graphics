@@ -1,0 +1,9 @@
+*.exe
+*.pdb
+*.ilk
+*.suo
+*.sdf
+*.opendb
+*.user
+.vs/
+Debug/Tmp

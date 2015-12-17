@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Mainer.cpp" />
+    <ClCompile Include="MeGlWindow.cpp" />
+    <ClCompile Include="Primitives\ShapeGenerator.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MeGlWindow.h" />
+    <ClInclude Include="Primitives\Vertex.h" />
+    <ClInclude Include="Primitives\ShapeData.h" />
+    <ClInclude Include="Primitives\ShapeGenerator.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VertexShaderCode.glsl" />
+    <None Include="FragmentShaderCode.glsl" />
+  </ItemGroup>
+</Project>
