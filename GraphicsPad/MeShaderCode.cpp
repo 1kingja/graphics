@@ -17,5 +17,5 @@ const char* fragmentShaderCode =
 	""
 	"void main()"
 	"{"
-	"	daColor = vec4(0.0, 1.0, 0.0, 1.0)"
+	"	daColor = vec4(0.0, 1.0, 0.0, 1.0);"
 	"}";

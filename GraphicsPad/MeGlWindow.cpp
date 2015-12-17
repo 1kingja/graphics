@@ -2,6 +2,7 @@
 #include <MeGlWindow.h>
 
 extern const char* vertexShaderCode;
+extern const char* fragmentShaderCode;
 
 void sendDataToOpenGL()
 {
@@ -38,7 +39,24 @@ void sendDataToOpenGL()
 
 void installShaders()
 {
+	GLuint vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
+	GLuint fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
+	const char* adapter[1];
+	adapter[0] = vertexShaderCode;
+	glShaderSource(vertexShaderID, 1, adapter, 0);
+	adapter[0] = fragmentShaderCode;
+	glShaderSource(fragmentShaderID, 1, adapter, 0);
+
+	glCompileShader(vertexShaderID);
+	glCompileShader(fragmentShaderID);
+
+	GLuint programID = glCreateProgram();
+	glAttachShader(programID, vertexShaderID);
+	glAttachShader(programID, fragmentShaderID);
+	glLinkProgram(programID);
+
+	glUseProgram(programID);
 }
 
 void MeGlWindow::initializeGL()
