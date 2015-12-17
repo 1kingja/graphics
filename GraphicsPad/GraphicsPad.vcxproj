@@ -148,10 +148,13 @@
   <ItemGroup>
     <ClCompile Include="Mainer.cpp" />
     <ClCompile Include="MeGlWindow.cpp" />
-    <ClCompile Include="MeShaderCode.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FragmentShaderCode.glsl" />
     <ClInclude Include="MeGlWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VertexShaderCode.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
