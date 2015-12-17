@@ -6,6 +6,8 @@
 *.opendb
 *.user
 *.log
+*.obj
+*.idb
 .vs/
 *.tlog/
 Debug/Tmp
