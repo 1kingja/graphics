@@ -48,10 +48,10 @@ void sendAnotherTriToOpenGL()
 
 void MeGlWindow::paintGL()
 {
-	glClear(GL_DEPTH_BUFFER_BIT);
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glViewport(0, 0, width(), height());
 	sendAnotherTriToOpenGL();
-	//glDrawArrays();
+	glDrawArrays(GL_TRIANGLES, (numTris - 1) * NUM_VERTICES_PER_TRI, NUM_VERTICES_PER_TRI);
 }
 
 bool checkStatus(
