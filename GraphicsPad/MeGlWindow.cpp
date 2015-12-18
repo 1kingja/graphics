@@ -39,18 +39,18 @@ bool checkProgramStatus(GLuint programID)
 
 void sendDataToOpenGL()
 {
-	const float RED_TRIANGLE_Z = 0.5;
+	const float RED_TRIANGLE_Z = +0.5;
 	const float BLUE_TRIANGLE_Z = -0.5;
 	GLfloat verts[] =
 	{
 		-1.0f, -1.0f, RED_TRIANGLE_Z,
 		+1.0f, +0.0f, +0.0f,
-		+0.0f, +1.0f, RED_TRIANGLE_Z,
-		+1.0f, +0.0f, +0.0f,
+		+0.0f, +1.0f, -1.0f,
+		+0.0f, +0.0f, +1.0f,
 		+1.0f, -1.0f, RED_TRIANGLE_Z,
 		+1.0f, +0.0f, +0.0f,
 
-		-1.0f, +1.0f, BLUE_TRIANGLE_Z,
+		+0.0f, +1.0f, BLUE_TRIANGLE_Z,
 		+0.0f, +0.0f, +1.0f,
 		+0.0f, -1.0f, BLUE_TRIANGLE_Z,
 		+0.0f, +0.0f, +1.0f,
