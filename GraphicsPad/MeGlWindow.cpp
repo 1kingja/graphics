@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <MeGlWindow.h>
+#include <glm\glm.hpp>
 using namespace std;
 
 const float X_DELTA = 0.1f;
