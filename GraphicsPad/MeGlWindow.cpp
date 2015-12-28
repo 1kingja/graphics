@@ -6,10 +6,12 @@
 #include <Primitives\Vertex.h>
 #include <Primitives\ShapeGenerator.h>
 using namespace std;
+using glm::vec3;
 
 const uint NUM_VERTICES_PER_TRI = 3;
 const uint NUM_FLOATS_PER_VERTICE = 6;
 const uint VERTEX_BYTE_SIZE = NUM_FLOATS_PER_VERTICE * sizeof(float);
+GLuint programID;
 
 void sendDataToOpenGL()
 {
@@ -35,6 +37,11 @@ void MeGlWindow::paintGL()
 {
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glViewport(0, 0, width(), height());
+
+	vec3 dominatingColor(0.0f, 1.0f, 0.5f);
+	GLint dominatingColorUniformLocation = glGetUniformLocation(programID, "dominatingColor");
+	glUniform3fv(dominatingColorUniformLocation, 1, &dominatingColor[0]);
+
 	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0);
 }
 
@@ -103,7 +110,7 @@ void installShaders()
 	if( ! checkShaderStatus(vertexShaderID) || ! checkShaderStatus(fragmentShaderID))
 		return;
 
-	GLuint programID = glCreateProgram();
+	programID = glCreateProgram();
 	glAttachShader(programID, vertexShaderID);
 	glAttachShader(programID, fragmentShaderID);
 	glLinkProgram(programID);
