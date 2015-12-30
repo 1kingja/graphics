@@ -42,11 +42,9 @@ void MeGlWindow::paintGL()
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glViewport(0, 0, width(), height());
 
-	mat4 translationMatrix = glm::translate(mat4(), vec3(0.0f, 0.0f, -3.0f));
-	mat4 rotationMatrix = glm::rotate(mat4(), 54.0f, vec3(1.0f, 0.0f, 0.0f));
 	mat4 projectionMatrix = glm::perspective(60.0f, ((float)width()) / height(), 0.1f, 10.0f);
-
-	mat4 fullTransformMatrix = projectionMatrix * translationMatrix * rotationMatrix;
+	mat4 projectionTranslationMatrix = glm::translate(projectionMatrix, vec3(0.0f, 0.0f, -3.0f));
+	mat4 fullTransformMatrix = glm::rotate(projectionTranslationMatrix, 54.0f, vec3(1.0f, 0.0f, 0.0f));
 
 	GLint fullTransformMatrixUniformLocation =
 		glGetUniformLocation(programID, "fullTransformMatrix");
