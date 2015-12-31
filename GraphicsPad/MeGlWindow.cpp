@@ -19,23 +19,34 @@ GLuint numIndices;
 
 void sendDataToOpenGL()
 {
-	ShapeData shape = ShapeGenerator::makeCube();
+	GLfloat tri[] = {
+		-1.0f, +0.0f,
+		-1.0f, +1.0f,
+		-0.9f, +0.0f
+	};
 
 	GLuint vertexBufferID;
 	glGenBuffers(1, &vertexBufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
-	glBufferData(GL_ARRAY_BUFFER, shape.vertexBufferSize(), shape.vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(tri), tri, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (char*)(sizeof(float) * 3));
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
+	GLfloat offsets[] = { 0.0f, 0.5f, 1.0f, 1.2f, 1.6f };
+	GLuint offsetsBufferID;
+	glGenBuffers(1, &offsetsBufferID);
+	glBindBuffer(GL_ARRAY_BUFFER, offsetsBufferID);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(offsets), offsets, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribDivisor(1, 1);
+
+	GLushort indices[] = { 0, 1, 2 };
 	GLuint indexArrayBufferID;
 	glGenBuffers(1, &indexArrayBufferID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexArrayBufferID);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, shape.indexBufferSize(), shape.indices, GL_STATIC_DRAW);
-	numIndices = shape.numIndices;
-	shape.cleanup();
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	numIndices = 3;
 }
 
 void MeGlWindow::paintGL()
@@ -43,31 +54,7 @@ void MeGlWindow::paintGL()
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glViewport(0, 0, width(), height());
 
-	GLint fullTransformMatrixUniformLocation =
-		glGetUniformLocation(programID, "fullTransformMatrix");
-
-	mat4 fullTransformMatrix;
-	mat4 projectionMatrix = glm::perspective(60.0f, ((float)width()) / height(), 0.1f, 10.0f);
-
-	// Cube 1
-	mat4 translationMatrix = glm::translate(vec3(-1.0f, 0.0f, -3.0f));
-	mat4 rotationMatrix = glm::rotate(36.0f, vec3(1.0f, 0.0f, 0.0f));
-
-	fullTransformMatrix = projectionMatrix * translationMatrix * rotationMatrix;
-
-	glUniformMatrix4fv(fullTransformMatrixUniformLocation, 1,
-		GL_FALSE, &fullTransformMatrix[0][0]);
-	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, 0);
-
-	// Cube 2
-	translationMatrix = glm::translate(vec3(1.0f, 0.0f, -3.75f));
-	rotationMatrix = glm::rotate(126.0f, vec3(0.0f, 1.0f, 0.0f));
-
-	fullTransformMatrix = projectionMatrix * translationMatrix * rotationMatrix;
-
-	glUniformMatrix4fv(fullTransformMatrixUniformLocation, 1,
-		GL_FALSE, &fullTransformMatrix[0][0]);
-	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, 0);
+	glDrawElementsInstanced(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, 0, 5);
 }
 
 bool checkStatus(
