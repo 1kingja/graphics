@@ -4,6 +4,7 @@
 #include <MeGlWindow.h>
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtx\transform.hpp>
 #include <Primitives\Vertex.h>
 #include <Primitives\ShapeGenerator.h>
 using namespace std;
@@ -42,16 +43,30 @@ void MeGlWindow::paintGL()
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glViewport(0, 0, width(), height());
 
-	mat4 projectionMatrix = glm::perspective(60.0f, ((float)width()) / height(), 0.1f, 10.0f);
-	mat4 projectionTranslationMatrix = glm::translate(projectionMatrix, vec3(0.0f, 0.0f, -3.0f));
-	mat4 fullTransformMatrix = glm::rotate(projectionTranslationMatrix, 54.0f, vec3(1.0f, 0.0f, 0.0f));
-
 	GLint fullTransformMatrixUniformLocation =
 		glGetUniformLocation(programID, "fullTransformMatrix");
 
+	mat4 fullTransformMatrix;
+	mat4 projectionMatrix = glm::perspective(60.0f, ((float)width()) / height(), 0.1f, 10.0f);
+
+	// Cube 1
+	mat4 translationMatrix = glm::translate(vec3(-1.0f, 0.0f, -3.0f));
+	mat4 rotationMatrix = glm::rotate(36.0f, vec3(1.0f, 0.0f, 0.0f));
+
+	fullTransformMatrix = projectionMatrix * translationMatrix * rotationMatrix;
+
 	glUniformMatrix4fv(fullTransformMatrixUniformLocation, 1,
 		GL_FALSE, &fullTransformMatrix[0][0]);
+	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, 0);
 
+	// Cube 2
+	translationMatrix = glm::translate(vec3(1.0f, 0.0f, -3.75f));
+	rotationMatrix = glm::rotate(126.0f, vec3(0.0f, 1.0f, 0.0f));
+
+	fullTransformMatrix = projectionMatrix * translationMatrix * rotationMatrix;
+
+	glUniformMatrix4fv(fullTransformMatrixUniformLocation, 1,
+		GL_FALSE, &fullTransformMatrix[0][0]);
 	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, 0);
 }
 
