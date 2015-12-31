@@ -139,10 +139,16 @@ void MeGlWindow::installShaders()
 	programID = glCreateProgram();
 	glAttachShader(programID, vertexShaderID);
 	glAttachShader(programID, fragmentShaderID);
+
+	glBindAttribLocation(programID, 2, "position");
 	glLinkProgram(programID);
 
 	if (!checkProgramStatus(programID))
 		return;
+
+	GLint positionLocation = glGetAttribLocation(programID, "position");
+	GLint colorLocation = glGetAttribLocation(programID, "vertexColor");
+	GLint transformLocation = glGetAttribLocation(programID, "fullTransformMatrix");
 
 	glDeleteShader(vertexShaderID);
 	glDeleteShader(fragmentShaderID);
