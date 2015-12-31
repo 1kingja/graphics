@@ -17,36 +17,50 @@ const uint VERTEX_BYTE_SIZE = NUM_FLOATS_PER_VERTICE * sizeof(float);
 GLuint programID;
 GLuint numIndices;
 
-void sendDataToOpenGL()
+void MeGlWindow::sendDataToOpenGL()
 {
-	GLfloat tri[] = {
-		-1.0f, +0.0f,
-		-1.0f, +1.0f,
-		-0.9f, +0.0f
-	};
+	ShapeData shape = ShapeGenerator::makeCube();
 
 	GLuint vertexBufferID;
 	glGenBuffers(1, &vertexBufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(tri), tri, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, shape.vertexBufferSize(), shape.vertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-	GLfloat offsets[] = { 0.0f, 0.5f, 1.0f, 1.2f, 1.6f };
-	GLuint offsetsBufferID;
-	glGenBuffers(1, &offsetsBufferID);
-	glBindBuffer(GL_ARRAY_BUFFER, offsetsBufferID);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(offsets), offsets, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, 0, 0);
-	glVertexAttribDivisor(1, 1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (char*)(sizeof(float) * 3));
 
-	GLushort indices[] = { 0, 1, 2 };
 	GLuint indexArrayBufferID;
 	glGenBuffers(1, &indexArrayBufferID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexArrayBufferID);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-	numIndices = 3;
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, shape.indexBufferSize(), shape.indices, GL_STATIC_DRAW);
+	numIndices = shape.numIndices;
+	shape.cleanup();
+
+	GLuint transformationMatrixBufferID;
+	glGenBuffers(1, &transformationMatrixBufferID);
+	glBindBuffer(GL_ARRAY_BUFFER, transformationMatrixBufferID);
+
+	mat4 projectionMatrix = glm::perspective(60.0f, ((float)width()) / height(), 0.1f, 10.0f);
+	mat4 fullTransforms[] =
+	{
+		projectionMatrix * glm::translate(vec3(-1.0f, 0.0f, -3.0f)) * glm::rotate(36.0f, vec3(1.0f, 0.0f, 0.0f)),
+		projectionMatrix * glm::translate(vec3(1.0f, 0.0f, -3.75f)) * glm::rotate(126.0f, vec3(0.0f, 1.0f, 0.0f))
+	};
+	glBufferData(GL_ARRAY_BUFFER, sizeof(fullTransforms), fullTransforms, GL_STATIC_DRAW);
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(mat4), (void*)(sizeof(float) * 0));
+	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(mat4), (void*)(sizeof(float) * 4));
+	glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(mat4), (void*)(sizeof(float) * 8));
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(mat4), (void*)(sizeof(float) * 12));
+	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(3);
+	glEnableVertexAttribArray(4);
+	glEnableVertexAttribArray(5);
+	glVertexAttribDivisor(2, 1);
+	glVertexAttribDivisor(3, 1);
+	glVertexAttribDivisor(4, 1);
+	glVertexAttribDivisor(5, 1);
+
 }
 
 void MeGlWindow::paintGL()
@@ -54,7 +68,7 @@ void MeGlWindow::paintGL()
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glViewport(0, 0, width(), height());
 
-	glDrawElementsInstanced(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, 0, 5);
+	glDrawElementsInstanced(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, 0, 2);
 }
 
 bool checkStatus(
@@ -80,20 +94,20 @@ bool checkStatus(
 	return true;
 }
 
-bool checkShaderStatus(GLuint shaderID)
+bool MeGlWindow::checkShaderStatus(GLuint shaderID)
 {
 	return checkStatus(shaderID, glGetShaderiv, glGetShaderInfoLog, GL_COMPILE_STATUS);
 }
 
-bool checkProgramStatus(GLuint programID)
+bool MeGlWindow::checkProgramStatus(GLuint programID)
 {
 	return checkStatus(programID, glGetProgramiv, glGetProgramInfoLog, GL_LINK_STATUS);
 }
 
-string readShaderCode(const char* fileName)
+string MeGlWindow::readShaderCode(const char* fileName)
 {
 	ifstream meInput(fileName);
-	if ( ! meInput.good())
+	if (!meInput.good())
 	{
 		cout << "File failed to load..." << fileName;
 		exit(1);
@@ -103,7 +117,7 @@ string readShaderCode(const char* fileName)
 		std::istreambuf_iterator<char>());
 }
 
-void installShaders()
+void MeGlWindow::installShaders()
 {
 	GLuint vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 	GLuint fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
@@ -119,7 +133,7 @@ void installShaders()
 	glCompileShader(vertexShaderID);
 	glCompileShader(fragmentShaderID);
 
-	if( ! checkShaderStatus(vertexShaderID) || ! checkShaderStatus(fragmentShaderID))
+	if (!checkShaderStatus(vertexShaderID) || !checkShaderStatus(fragmentShaderID))
 		return;
 
 	programID = glCreateProgram();
@@ -127,7 +141,7 @@ void installShaders()
 	glAttachShader(programID, fragmentShaderID);
 	glLinkProgram(programID);
 
-	if ( ! checkProgramStatus(programID))
+	if (!checkProgramStatus(programID))
 		return;
 
 	glDeleteShader(vertexShaderID);
