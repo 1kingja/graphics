@@ -7,8 +7,8 @@ class MeGlWindow : public QGLWidget
 protected:
 	void initializeGL();
 	void paintGL();
-
 public:
+	~MeGlWindow();
 };
 
 #endif

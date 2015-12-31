@@ -128,6 +128,9 @@ void installShaders()
 	if ( ! checkProgramStatus(programID))
 		return;
 
+	glDeleteShader(vertexShaderID);
+	glDeleteShader(fragmentShaderID);
+
 	glUseProgram(programID);
 }
 
@@ -137,4 +140,10 @@ void MeGlWindow::initializeGL()
 	glEnable(GL_DEPTH_TEST);
 	sendDataToOpenGL();
 	installShaders();
+}
+
+MeGlWindow::~MeGlWindow()
+{
+	glUseProgram(0);
+	glDeleteProgram(programID);
 }
