@@ -38,7 +38,7 @@ void MeGlWindow::sendDataToOpenGL()
 {
 	ShapeData teapot = ShapeGenerator::makeTeapot();
 	ShapeData arrow = ShapeGenerator::makeArrow();
-	ShapeData plane = ShapeGenerator::makePlane(20);
+	ShapeData plane = ShapeGenerator::makeCube();
 
 	glGenBuffers(1, &theBufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, theBufferID);
@@ -122,7 +122,7 @@ void MeGlWindow::paintGL()
 	vec4 ambientLight(0.05f, 0.05f, 0.05f, 1.0f);
 	glUniform4fv(ambientLightUniformLocation, 1, &ambientLight[0]);
 	GLint lightPositionUniformLocation = glGetUniformLocation(programID, "lightPositionWorld");
-	glm::vec3 lightPositionWorld(0.0f, 1.0f, 0.0f);
+	glm::vec3 lightPositionWorld(2.0f, 3.0f, 0.0f);
 	glUniform3fv(lightPositionUniformLocation, 1, &lightPositionWorld[0]);
 
 	GLint modelToWorldMatrixUniformLocation =
@@ -136,14 +136,14 @@ void MeGlWindow::paintGL()
 	glUniformMatrix4fv(fullTransformationUniformLocation, 1, GL_FALSE, &modelToProjectionMatrix[0][0]);
 	glUniformMatrix4fv(modelToWorldMatrixUniformLocation, 1, GL_FALSE, 
 		&arrowModelToWorldMatrix[0][0]);
-	glDrawElements(GL_TRIANGLES, arrowNumIndices, GL_UNSIGNED_SHORT, (void*)arrowIndexByteOffset);
+	//glDrawElements(GL_TRIANGLES, arrowNumIndices, GL_UNSIGNED_SHORT, (void*)arrowIndexByteOffset);
 	// Arrow centered
 	arrowModelToWorldMatrix = mat4();
 	modelToProjectionMatrix = worldToProjectionMatrix * arrowModelToWorldMatrix;
 	glUniformMatrix4fv(fullTransformationUniformLocation, 1, GL_FALSE, &modelToProjectionMatrix[0][0]);
 	glUniformMatrix4fv(modelToWorldMatrixUniformLocation, 1, GL_FALSE,
 		&arrowModelToWorldMatrix[0][0]);
-	glDrawElements(GL_TRIANGLES, arrowNumIndices, GL_UNSIGNED_SHORT, (void*)arrowIndexByteOffset);
+	//glDrawElements(GL_TRIANGLES, arrowNumIndices, GL_UNSIGNED_SHORT, (void*)arrowIndexByteOffset);
 
 	// Plane
 	glBindVertexArray(planeVertexArrayObjectID);
