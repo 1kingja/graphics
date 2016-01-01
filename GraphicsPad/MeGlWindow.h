@@ -13,6 +13,7 @@ class MeGlWindow : public QGLWidget
 protected:
 	void initializeGL();
 	void paintGL();
+	void mouseMoveEvent(QMouseEvent*);
 public:
 	~MeGlWindow();
 };
