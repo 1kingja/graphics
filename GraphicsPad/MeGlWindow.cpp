@@ -143,8 +143,11 @@ void MeGlWindow::paintGL()
 
 	// Arrow
 	glBindVertexArray(arrowVertexArrayObjectID);
-	mat4 arrowModelToWorldMatrix = glm::translate(0.0f, 1.0f, -8.0f) * glm::rotate(-90.0f, 1.0f, 0.0f, 0.0f);
+	mat4 arrowModelToWorldMatrix = glm::translate(0.0f, 1.0f, -8.0f);
 	fullTransformMatrix = worldToProjectionMatrix * arrowModelToWorldMatrix;
+	glUniformMatrix4fv(fullTransformationUniformLocation, 1, GL_FALSE, &fullTransformMatrix[0][0]);
+	glDrawElements(GL_TRIANGLES, arrowNumIndices, GL_UNSIGNED_SHORT, (void*)arrowIndexByteOffset);
+	fullTransformMatrix = worldToProjectionMatrix;
 	glUniformMatrix4fv(fullTransformationUniformLocation, 1, GL_FALSE, &fullTransformMatrix[0][0]);
 	glDrawElements(GL_TRIANGLES, arrowNumIndices, GL_UNSIGNED_SHORT, (void*)arrowIndexByteOffset);
 
