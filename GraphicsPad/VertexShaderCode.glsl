@@ -15,6 +15,6 @@ void main()
 {
 	vec4 v = vec4(position, 1.0);
 	gl_Position = fullTransformMatrix * v;
-	theNormal = normal;
+	theNormal = mat3(modelToWorldTransformMatrix) * normal;
 	thePosition = vec3(modelToWorldTransformMatrix * v);
 }
