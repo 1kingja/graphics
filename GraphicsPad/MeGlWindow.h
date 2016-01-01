@@ -14,6 +14,7 @@ protected:
 	void initializeGL();
 	void paintGL();
 	void mouseMoveEvent(QMouseEvent*);
+	void keyPressEvent(QKeyEvent*);
 public:
 	~MeGlWindow();
 };
