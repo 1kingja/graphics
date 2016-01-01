@@ -12,6 +12,7 @@
 #include "Camera.h"
 using namespace std;
 using glm::vec3;
+using glm::vec4;
 using glm::mat4;
 
 const uint NUM_VERTICES_PER_TRI = 3;
@@ -118,8 +119,8 @@ void MeGlWindow::paintGL()
 	mat4 worldToProjectionMatrix = viewToProjectionMatrix * worldToViewMatrix;
 
 	GLint ambientLightUniformLocation = glGetUniformLocation(programID, "ambientLight");
-	vec3 ambientLight(0.1f, 0.1f, 0.1f);
-	glUniform3fv(ambientLightUniformLocation, 1, &ambientLight[0]);
+	vec4 ambientLight(0.05f, 0.05f, 0.05f, 1.0f);
+	glUniform4fv(ambientLightUniformLocation, 1, &ambientLight[0]);
 	GLint lightPositionUniformLocation = glGetUniformLocation(programID, "lightPositionWorld");
 	glm::vec3 lightPositionWorld(0.0f, 1.0f, 0.0f);
 	glUniform3fv(lightPositionUniformLocation, 1, &lightPositionWorld[0]);

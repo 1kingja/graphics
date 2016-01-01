@@ -3,7 +3,6 @@
 in layout(location=0) vec4 vertexPositionModel;
 in layout(location=1) vec3 vertexColor;
 in layout(location=2) vec3 normalModel;
-uniform vec3 ambientLight;
 
 uniform mat4 modelToProjectionMatrix;
 uniform mat4 modelToWorldMatrix;
