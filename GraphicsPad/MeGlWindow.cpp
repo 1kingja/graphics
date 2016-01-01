@@ -26,6 +26,8 @@ GLuint cubeVertexBufferID;
 GLuint cubeIndexBufferID;
 GLuint arrowVertexBufferID;
 GLuint arrowIndexBufferID;
+GLuint cubeVertexArrayObjectID;
+GLuint arrowVertexArrayObjectID;
 
 void MeGlWindow::sendDataToOpenGL()
 {
@@ -34,15 +36,12 @@ void MeGlWindow::sendDataToOpenGL()
 	glGenBuffers(1, &cubeVertexBufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, cubeVertexBufferID);
 	glBufferData(GL_ARRAY_BUFFER, shape.vertexBufferSize(), shape.vertices, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
 
 	glGenBuffers(1, &cubeIndexBufferID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeIndexBufferID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, shape.indexBufferSize(), shape.indices, GL_STATIC_DRAW);
 	cubeNumIndices = shape.numIndices;
 	shape.cleanup();
-
 
 	shape = ShapeGenerator::makeArrow();
 
@@ -59,6 +58,28 @@ void MeGlWindow::sendDataToOpenGL()
 	shape.cleanup();
 }
 
+void MeGlWindow::setupVertexArrays()
+{
+	glGenVertexArrays(1, &cubeVertexArrayObjectID);
+	glGenVertexArrays(1, &arrowVertexArrayObjectID);
+
+	glBindVertexArray(cubeVertexArrayObjectID);
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, cubeVertexBufferID);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (char*)(sizeof(float) * 3));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeIndexBufferID);
+
+	glBindVertexArray(arrowVertexArrayObjectID);
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, arrowVertexBufferID);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (char*)(sizeof(float) * 3));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, arrowIndexBufferID);
+}
+
 void MeGlWindow::paintGL()
 {
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
@@ -70,11 +91,7 @@ void MeGlWindow::paintGL()
 	mat4 worldToProjectionMatrix = viewToProjectionMatrix * worldToViewMatrix;
 
 	// Cube
-	glBindBuffer(GL_ARRAY_BUFFER, cubeVertexBufferID);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (char*)(sizeof(float) * 3));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeIndexBufferID);
-
+	glBindVertexArray(cubeVertexArrayObjectID);
 	mat4 cube1ModelToWorldMatrix =
 		glm::translate(vec3(-1.0f, 0.0f, -3.0f)) *
 		glm::rotate(36.0f, vec3(1.0f, 0.0f, 0.0f));
@@ -90,11 +107,7 @@ void MeGlWindow::paintGL()
 	glDrawElements(GL_TRIANGLES, cubeNumIndices, GL_UNSIGNED_SHORT, 0);
 
 	// Arrow
-	glBindBuffer(GL_ARRAY_BUFFER, arrowVertexBufferID);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (char*)(sizeof(float) * 3));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, arrowIndexBufferID);
-
+	glBindVertexArray(arrowVertexArrayObjectID);
 	mat4 arrowModelToWorldMatrix = glm::translate(0.0f, 0.0f, -3.0f);
 	fullTransformMatrix = worldToProjectionMatrix * arrowModelToWorldMatrix;
 	glUniformMatrix4fv(fullTransformationUniformLocation, 1, GL_FALSE, &fullTransformMatrix[0][0]);
@@ -133,7 +146,7 @@ void MeGlWindow::keyPressEvent(QKeyEvent* e)
 	repaint();
 }
 
-bool checkStatus(
+bool MeGlWindow::checkStatus(
 	GLuint objectID,
 	PFNGLGETSHADERIVPROC objectPropertyGetterFunc,
 	PFNGLGETSHADERINFOLOGPROC getInfoLogFunc,
@@ -219,6 +232,7 @@ void MeGlWindow::initializeGL()
 	glewInit();
 	glEnable(GL_DEPTH_TEST);
 	sendDataToOpenGL();
+	setupVertexArrays();
 	installShaders();
 	fullTransformationUniformLocation = glGetUniformLocation(programID, "fullTransformMatrix");
 }
