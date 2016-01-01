@@ -27,7 +27,8 @@ void MeGlWindow::sendDataToOpenGL()
 	glBufferData(GL_ARRAY_BUFFER, shape.vertexBufferSize(), shape.vertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
-	glEnableVertexAttribArray(1);
+	//glEnableVertexAttribArray(1);
+	glVertexAttrib3f(1, 0, 0, 1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (char*)(sizeof(float) * 3));
 
 	GLuint indexArrayBufferID;
@@ -140,15 +141,10 @@ void MeGlWindow::installShaders()
 	glAttachShader(programID, vertexShaderID);
 	glAttachShader(programID, fragmentShaderID);
 
-	glBindAttribLocation(programID, 2, "position");
 	glLinkProgram(programID);
 
 	if (!checkProgramStatus(programID))
 		return;
-
-	GLint positionLocation = glGetAttribLocation(programID, "position");
-	GLint colorLocation = glGetAttribLocation(programID, "vertexColor");
-	GLint transformLocation = glGetAttribLocation(programID, "fullTransformMatrix");
 
 	glDeleteShader(vertexShaderID);
 	glDeleteShader(fragmentShaderID);
