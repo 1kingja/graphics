@@ -1,14 +1,14 @@
 #version 430
 
 out vec4 daColor;
-in vec3 theNormal;
-in vec3 thePosition;
+in vec3 normalWorld;
+in vec3 vertexPositionWorld;
 
-uniform vec3 lightPosition;
+uniform vec3 lightPositionWorld;
 
 void main()
 {
-	vec3 lightVector = normalize(lightPosition - thePosition);
-	float brightness = dot(lightVector, theNormal);
+	vec3 lightVectorWorld = normalize(lightPositionWorld - vertexPositionWorld);
+	float brightness = dot(lightVectorWorld, normalize(normalWorld));
 	daColor = vec4(brightness, brightness, brightness, 1.0);
 }
