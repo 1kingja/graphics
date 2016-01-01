@@ -1,5 +1,6 @@
 #ifndef ME_GL_WINDOW
 #define ME_GL_WINDOW
+#include <gl\glew.h>
 #include <QtOpenGL\qglwidget>
 #include <string>
 
@@ -15,7 +16,6 @@ class MeGlWindow : public QGLWidget
 		GLenum statusType);
 	std::string readShaderCode(const char* fileName);
 	void installShaders();
-	void setupVertexArrays();
 protected:
 	void initializeGL();
 	void paintGL();
