@@ -112,6 +112,10 @@ void MeGlWindow::paintGL()
 	mat4 worldToViewMatrix = camera.getWorldToViewMatrix();
 	mat4 worldToProjectionMatrix = viewToProjectionMatrix * worldToViewMatrix;
 
+	GLint ambientLightUniformLocation = glGetUniformLocation(programID, "ambientLight");
+	vec3 ambientLight(0.3f, 0.3f, 0.3f);
+	glUniform3fv(ambientLightUniformLocation, 1, &ambientLight[0]);
+
 	glBindVertexArray(teapotVertexArrayObjectID);
 	mat4 teapot1ModelToWorldMatrix =
 		glm::translate(vec3(-3.0f, 0.0f, -6.0f)) *
