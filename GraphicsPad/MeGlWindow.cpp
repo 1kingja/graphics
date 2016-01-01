@@ -32,7 +32,7 @@ GLuint arrowIndexByteOffset;
 
 void MeGlWindow::sendDataToOpenGL()
 {
-	ShapeData cube = ShapeGenerator::makeCube();
+	ShapeData cube = ShapeGenerator::makePlane();
 	ShapeData arrow = ShapeGenerator::makeArrow();
 
 	glGenBuffers(1, &theBufferID);
@@ -85,7 +85,7 @@ void MeGlWindow::paintGL()
 	glViewport(0, 0, width(), height());
 
 	mat4 fullTransformMatrix;
-	mat4 viewToProjectionMatrix = glm::perspective(60.0f, ((float)width()) / height(), 0.1f, 10.0f);
+	mat4 viewToProjectionMatrix = glm::perspective(60.0f, ((float)width()) / height(), 0.1f, 20.0f);
 	mat4 worldToViewMatrix = camera.getWorldToViewMatrix();
 	mat4 worldToProjectionMatrix = viewToProjectionMatrix * worldToViewMatrix;
 
