@@ -17,5 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="VertexShaderCode.glsl" />
+    <None Include="VertexShaderPassThroughCode.glsl" />
+    <None Include="FragmentShaderPassThroughCode.glsl" />
   </ItemGroup>
 </Project>
