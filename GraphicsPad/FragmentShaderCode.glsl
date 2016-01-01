@@ -19,7 +19,8 @@ void main()
 	vec3 reflectedLightVectorWorld = reflect(-lightVectorWorld, normalWorld);
 	vec3 eyeVectorWorld = normalize(eyePositionWorld - vertexPositionWorld);
 	float s = dot(reflectedLightVectorWorld, eyeVectorWorld);
-	vec4 specularLight = vec4(s, s, s, 1);
+	s = pow(s, 50);
+	vec4 specularLight = vec4(0, 0, s, 1);
 
 	daColor = ambientLight + clamp(diffuseLight, 0, 1) + clamp(specularLight, 0, 1);
 }
