@@ -20,6 +20,7 @@
     <ClInclude Include="Primitives\TeapotData.h" />
     <ClInclude Include="MeWidget.h" />
     <ClInclude Include="GuiComponents\DebugSlider.h" />
+    <ClInclude Include="MyModel.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="VertexShaderCode.glsl" />

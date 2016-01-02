@@ -3,6 +3,7 @@
 #include <gl\glew.h>
 #include <QtOpenGL\qglwidget>
 #include <string>
+class MyModel;
 
 class MeGlWindow : public QGLWidget
 {
@@ -16,12 +17,14 @@ class MeGlWindow : public QGLWidget
 		GLenum statusType);
 	std::string readShaderCode(const char* fileName);
 	void installShaders();
+	MyModel* theModel;
 protected:
 	void initializeGL();
 	void paintGL();
 	void mouseMoveEvent(QMouseEvent*);
 	void keyPressEvent(QKeyEvent*);
 public:
+	MeGlWindow(MyModel* theModel);
 	~MeGlWindow();
 };
 

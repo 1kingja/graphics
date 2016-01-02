@@ -161,6 +161,7 @@
     <ClInclude Include="GuiComponents\DebugSlider.h" />
     <ClInclude Include="MeGlWindow.h" />
     <ClInclude Include="MeWidget.h" />
+    <ClInclude Include="MyModel.h" />
     <ClInclude Include="Primitives\ShapeData.h" />
     <ClInclude Include="Primitives\TeapotData.h" />
     <ClInclude Include="Primitives\Vertex.h" />

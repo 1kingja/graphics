@@ -11,7 +11,7 @@ MeWidget::MeWidget()
 	setLayout(mainLayout = new QVBoxLayout);
 	QVBoxLayout* controlsLayout;
 	mainLayout->addLayout(controlsLayout = new QVBoxLayout);
-	mainLayout->addWidget(meGlWindow = new MeGlWindow);
+	mainLayout->addWidget(meGlWindow = new MeGlWindow(&theModel));
 
 	QHBoxLayout* lightPositionLayout;
 	controlsLayout->addLayout(lightPositionLayout = new QHBoxLayout);
@@ -19,11 +19,18 @@ MeWidget::MeWidget()
 	lightPositionLayout->addWidget(lightYSlider = new DebugSlider);
 	lightPositionLayout->addWidget(lightZSlider = new DebugSlider);
 
-	connect(lightXSlider, SIGNAL(valueChanged(float)), 
+	connect(lightXSlider, SIGNAL(valueChanged(float)),
+		this, SLOT(sliderValueChanged()));
+	connect(lightYSlider, SIGNAL(valueChanged(float)),
+		this, SLOT(sliderValueChanged()));
+	connect(lightZSlider, SIGNAL(valueChanged(float)),
 		this, SLOT(sliderValueChanged()));
 }
 
 void MeWidget::sliderValueChanged()
 {
+	theModel.lightPosition.x = lightXSlider->value();
+	theModel.lightPosition.y = lightYSlider->value();
+	theModel.lightPosition.z = lightZSlider->value();
 	meGlWindow->repaint();
 }

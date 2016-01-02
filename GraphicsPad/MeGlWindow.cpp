@@ -9,7 +9,8 @@
 #include <glm\gtx\transform.hpp>
 #include <Primitives\Vertex.h>
 #include <Primitives\ShapeGenerator.h>
-#include "Camera.h"
+#include <Camera.h>
+#include <MyModel.h>
 using namespace std;
 using glm::vec3;
 using glm::vec4;
@@ -45,6 +46,12 @@ GLuint planeIndexByteOffset;
 GLuint teapotIndexByteOffset;
 GLuint sphereIndexByteOffset;
 GLuint torusIndexByteOffset;
+
+MeGlWindow::MeGlWindow(MyModel* theModel) :
+	theModel(theModel)
+{
+
+}
 
 void MeGlWindow::sendDataToOpenGL()
 {
@@ -189,7 +196,7 @@ void MeGlWindow::paintGL()
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glViewport(0, 0, width(), height());
 
-	glm::vec3 lightPositionWorld(5.0f, 2.0f, 2.0f);
+	glm::vec3 lightPositionWorld = theModel->lightPosition;
 	
 	mat4 modelToProjectionMatrix;
 	mat4 viewToProjectionMatrix = glm::perspective(60.0f, ((float)width()) / height(), 0.1f, 20.0f);
