@@ -1,6 +1,7 @@
 #pragma once
 #include <QtGui\qwidget.h>
 class DebugSlider;
+class MeGlWindow;
 
 class MeWidget : public QWidget
 {
@@ -9,6 +10,9 @@ class MeWidget : public QWidget
 	DebugSlider* lightXSlider;
 	DebugSlider* lightYSlider;
 	DebugSlider* lightZSlider;
+
+	MeGlWindow* meGlWindow;
+
 private slots:
 	void sliderValueChanged();
 

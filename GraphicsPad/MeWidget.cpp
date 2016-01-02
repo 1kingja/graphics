@@ -1,4 +1,5 @@
 #include "MeWidget.h"
+#include <Qt\qdebug.h>
 #include <QtGui\qvboxlayout>
 #include <QtGui\qhboxlayout>
 #include <MeGlWindow.h>
@@ -10,7 +11,7 @@ MeWidget::MeWidget()
 	setLayout(mainLayout = new QVBoxLayout);
 	QVBoxLayout* controlsLayout;
 	mainLayout->addLayout(controlsLayout = new QVBoxLayout);
-	mainLayout->addWidget(new MeGlWindow);
+	mainLayout->addWidget(meGlWindow = new MeGlWindow);
 
 	QHBoxLayout* lightPositionLayout;
 	controlsLayout->addLayout(lightPositionLayout = new QHBoxLayout);
@@ -20,4 +21,9 @@ MeWidget::MeWidget()
 
 	connect(lightXSlider, SIGNAL(valueChanged(float)), 
 		this, SLOT(sliderValueChanged()));
+}
+
+void MeWidget::sliderValueChanged()
+{
+	meGlWindow->repaint();
 }

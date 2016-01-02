@@ -8,6 +8,7 @@
     <ClCompile Include="MeWidget.cpp" />
     <ClCompile Include="GuiComponents\DebugSlider.cpp" />
     <ClCompile Include="GuiComponents\DebugSlider_moc.cpp" />
+    <ClCompile Include="MeWidget_moc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MeGlWindow.h" />
