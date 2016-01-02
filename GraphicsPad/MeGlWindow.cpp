@@ -189,6 +189,8 @@ void MeGlWindow::paintGL()
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glViewport(0, 0, width(), height());
 
+	glm::vec3 lightPositionWorld(5.0f, 2.0f, 2.0f);
+	
 	mat4 modelToProjectionMatrix;
 	mat4 viewToProjectionMatrix = glm::perspective(60.0f, ((float)width()) / height(), 0.1f, 20.0f);
 	mat4 worldToViewMatrix = camera.getWorldToViewMatrix();
@@ -196,8 +198,6 @@ void MeGlWindow::paintGL()
 
 	GLuint fullTransformationUniformLocation;
 	GLuint modelToWorldMatrixUniformLocation;
-
-	glm::vec3 lightPositionWorld(0.0f, 1.5f, 0.0f);
 
 	glUseProgram(programID);
 	GLint ambientLightUniformLocation = glGetUniformLocation(programID, "ambientLight");
@@ -425,6 +425,7 @@ void MeGlWindow::installShaders()
 
 void MeGlWindow::initializeGL()
 {
+	setMinimumSize(1200, 600);
 	setMouseTracking(true);
 	glewInit();
 	glEnable(GL_DEPTH_TEST);

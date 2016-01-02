@@ -149,12 +149,14 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Mainer.cpp" />
     <ClCompile Include="MeGlWindow.cpp" />
+    <ClCompile Include="MeWidget.cpp" />
     <ClCompile Include="Primitives\ShapeGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="FragmentShaderCode.glsl" />
     <ClInclude Include="MeGlWindow.h" />
+    <ClInclude Include="MeWidget.h" />
     <ClInclude Include="Primitives\ShapeData.h" />
     <ClInclude Include="Primitives\TeapotData.h" />
     <ClInclude Include="Primitives\Vertex.h" />
