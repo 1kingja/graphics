@@ -6,6 +6,8 @@
     <ClCompile Include="Primitives\ShapeGenerator.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="MeWidget.cpp" />
+    <ClCompile Include="GuiComponents\DebugSlider.cpp" />
+    <ClCompile Include="GuiComponents\DebugSlider_moc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MeGlWindow.h" />
@@ -16,6 +18,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Primitives\TeapotData.h" />
     <ClInclude Include="MeWidget.h" />
+    <ClInclude Include="GuiComponents\DebugSlider.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="VertexShaderCode.glsl" />
