@@ -22,5 +22,5 @@ void main()
 	s = pow(s, 50);
 	vec4 specularLight = vec4(0, 0, s, 1);
 
-	daColor = ambientLight + clamp(diffuseLight, 0, 1) + clamp(specularLight, 0, 1);
+	daColor = ambientLight + clamp(diffuseLight, 0, 1) + specularLight;
 }
