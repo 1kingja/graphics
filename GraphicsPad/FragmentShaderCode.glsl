@@ -18,7 +18,7 @@ void main()
 	// Specular
 	vec3 reflectedLightVectorWorld = reflect(-lightVectorWorld, normalWorld);
 	vec3 eyeVectorWorld = normalize(eyePositionWorld - vertexPositionWorld);
-	float s = dot(reflectedLightVectorWorld, eyeVectorWorld);
+	float s = clamp(dot(reflectedLightVectorWorld, eyeVectorWorld), 0, 1);
 	s = pow(s, 50);
 	vec4 specularLight = vec4(s, 0, 0, 1);
 
