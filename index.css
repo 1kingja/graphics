@@ -1,0 +1,37 @@
+
+
+body{
+    background-color: #323333;
+    font-size: 0.9em;
+    color: white;
+    font-family: helvetica, arial,sans-serif;
+}
+
+h1{
+    text-transform:uppercase;
+}
+#menu
+{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 630px; 
+    width: calc(100% - 1120px);
+    font-size: 150%; 
+    float:left;
+    background-color: #585858;
+}
+#menu div{
+    border-bottom: white 1px solid;
+    border-top: white 1px solid;
+    padding: 3px;
+}
+#menu div a{
+    text-decoration: none;
+    color:white;
+}
+#menu div:hover{
+    background-color: darkgray;
+}
+#daFrame{
+    float:right;
+}
